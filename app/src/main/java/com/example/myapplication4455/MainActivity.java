@@ -38,12 +38,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (user_field.getText().toString().trim().equals(""))
-                    Toast.makeText(MainActivity.this,R.string.no_user_input,Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, R.string.no_user_input, Toast.LENGTH_LONG).show();
                 else {
 //                    https://api.openweathermap.org/data/2.5/weather?q=Zhytomyr&appid=94b182a85897d79ebf85cf72bbebd035&units=metric&lang=ru
                     String city = user_field.getText().toString();
                     String key = "94b182a85897d79ebf85cf72bbebd035";
-                    String url = "https://api.openweathermap.org/data/2.5/weather?q="+ city +"&appid=" + key + "&units=metric&lang=ru";
+                    String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + key + "&units=metric&lang=ru";
+//                    String url = "https://api.openweathermap.org/data/2.5/weather?q=Zhytomyr&appid=94b182a85897d79ebf85cf72bbebd035&units=metric&lang=ru";
 
                     new GetUrlData().execute(url);
                 }
@@ -51,9 +52,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private class GetUrlData extends AsyncTask<String,String,String>{
+    private class GetUrlData extends AsyncTask<String, String, String> {
 
-        protected void onPreExecute(){
+        protected void onPreExecute() {
             super.onPreExecute();
             result_info.setText("Завантаження...");
         }
@@ -65,7 +66,9 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 URL url = new URL(strings[0]);
+                System.out.println(url);
                 connection = (HttpURLConnection) url.openConnection();
+//                connection.setRequestMethod("GET");
                 connection.connect();
 
                 InputStream stream = connection.getInputStream();
@@ -89,15 +92,15 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     if (reader != null)
                         reader.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            return null;
             }
+            return null;
+        }
 
-            @Override
-            protected void onPostExecute(String result) {
+        @Override
+        protected void onPostExecute(String result) {
             super.onPostExecute(result);
             result_info.setText(result);
         }
